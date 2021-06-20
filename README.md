@@ -1,5 +1,7 @@
 # Autonomous-shopping-Cart-ROS
-This repository hosts TeamCase's Fetchit Challenge.
+This repository hosts TeamCase's Fetchit Challenge-computer vision challenges.
+
+For more info please go to https://github.com/cwru-robotics/teamCaseFetch
 
 For Fetchit Challenge, refer: https://opensource.fetchrobotics.com/competition
 
