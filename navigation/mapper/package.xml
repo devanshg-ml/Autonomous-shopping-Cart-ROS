@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<package>
+  <name>mapper</name>
+  <version>0.0.0</version>
+  <description>The mapper package</description>
+  
+  <maintainer email="Chude.Qian@case.edu">Frank Qian</maintainer>
+  <license>MIT</license>
+  <url type="website">https://github.com/frank-qcd-qk</url>
+  <author email="Chude.Qian@case.edu">Frank Qian</author>
+  <buildtool_depend>catkin</buildtool_depend>
+  <buildtool_depend>catkin_simple</buildtool_depend>
+</package>
+    

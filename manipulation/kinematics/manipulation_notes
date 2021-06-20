@@ -1,0 +1,46 @@
+manipulation notes:
+
+example: 0.7, 0, 0.045 is origin w/rt torso_lift_link such that gripper tips just touch a table top
+
+try fetch at pose: 0.42, -1.1, 0, 0,0,-1.5707
+
+gearbox part at: 0.423, -1.663, 0.792,0,0,-1.619
+
+robot gripper is nearly perfect at:  origin: 0.645, 0, 0.05 w/rt torso;
+
+l_gripper_finger: 0.558, -0.065, 0.812
+r_gripper_finger: 0.558, +0.065,0.812
+don't understand x-offset, finger at 0.558, block at 0.645
+
+rosrun tf tf_echo base_link generic_gripper_frame
+At time 2113.203
+- Translation: [0.558, -0.000, 0.812] = gripper w/rt base;  but robot is oriented w/ x-axis antiparallel to world y axis
+
+ gripper w/rt world: (0.42, -1.1, 0) + (0, -0.558, 0.812) = (0.42, ,-1.658, 0.812)
+
+
+vs block at 0.423, -1.663, 0.792  (about 5mm off in robot x direction)  OK.
+
+-------from this pose, want vision to identify block at:---------
+ 0.645, 0, 0.05 w/rt torso
+
+
+test:
+[ INFO] [1551034916.385202171]: label 1 has centroid w/rt robot: 0.644466, -0.007050:
+[ INFO] [1551034916.385228308]: label 2 has centroid w/rt robot: 0.624379, -0.202652:
+looks OK
+
+needs:
+ *subscribe to camera topic
+ *provide a service: request find a type of part
+ *upon service call, take a snapshot
+ *recognize different parts
+ *service response: vector of part poses
+
+--need to add orientation!!
+
+
+
+
+
+

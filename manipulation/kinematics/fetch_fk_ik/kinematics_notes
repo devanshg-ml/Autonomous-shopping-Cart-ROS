@@ -1,0 +1,40 @@
+fetch IK:
+
+try indexing on shoulder pan joint (J1);
+recast w_des w/rt frame 1, given proposed q1;
+compute distance from O1 to Ogripper
+--> elbow angles +/-, based on L_humerus and L_forearm
+
+---------------------test fwd_kin--------------
+rosrun test_fetch_arm_ac fetch_arm_test_action_client2
+
+
+rosrun tf tf_echo shoulder_pan_link wrist_flex_link
+shoulder_pan_joint, shoulder_lift_joint, upperarm_roll_joint, elbow_flex_joint,
+  forearm_roll_joint, wrist_flex_joint, wrist_roll_joint
+
+cmd: q_ARM_INIT<<1.32, 0.7, 0.0, -2.0, 0.0, -0.57, 0.0;
+
+1.3199894785954829, 0.7000564457085474, -5.35860666968091e-05, -1.9999805237176753, -0.0001984526584966062, -0.570059872232024, 0.00022699163393280486
+
+-->- Translation: [0.472, 0.000, 0.143]
+
+rosrun fetch_fk_ik fetch_fk_ik_spottest_main (w/ these q values):
+[ INFO] [1550157695.970942687]: wrist point: 0.117195 0.457452 0.143019
+
+
+rosrun tf tf_echo shoulder_pan_link gripper_link
+Translation: [0.382, 0.000, 0.434]
+vs spottest of fk:
+A origin (to gripper frame): 0.094887 0.370377 0.434421
+
+rosrun tf tf_echo base_link gripper_link
+- Translation: [0.128, 0.370, 1.160]
+
+arm base frame relative to mobile base frame:
+torso_lift_joint, bellows_joint=-9.319062961183888e-08, 0.006691447338222459
+
+rosrun tf tf_echo base_link shoulder_pan_link
+- Translation: [0.033, 0.000, 0.726]
+
+

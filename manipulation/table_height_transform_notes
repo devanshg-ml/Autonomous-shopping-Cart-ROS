@@ -1,0 +1,12 @@
+for table height 0.7m, torso in pre-pose (fully elevated), gripper approaching from
+above, gripper tips touch table top--> gripper frame w/rt torso_lift_link is:
+i.e., 3cm below torso_lift_link frame.
+
+rosrun tf tf_echo torso_lift_link generic_gripper_frame
+At time 630.241
+- Translation: [0.701, -0.001, -0.030]
+- Rotation: in Quaternion [1.000, 0.000, 0.001, 0.000]
+            in RPY (radian) [3.141, -0.001, 0.001]
+            in RPY (degree) [179.949, -0.068, 0.053]
+
+send generic_gripper_frame to elevation z= -0.02 w/rt torso_lift_link

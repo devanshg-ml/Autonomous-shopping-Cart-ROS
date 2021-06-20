@@ -1,0 +1,5 @@
+<launch> 
+<node name= "object_finder_main" pkg= "object_finder" type= "object_finder_main" output="screen" respawn="true"/> 
+<node name= "triad_display" pkg= "example_rviz_marker" type= "triad_display"  respawn="true"/> 
+</launch>  
+

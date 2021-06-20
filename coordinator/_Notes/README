@@ -1,0 +1,125 @@
+organization:  major subsystems are navigation, perception and manipulation
+
+navigation uses a node, mobot_pub_des_state:
+rosrun mobot_pub_des_state mobot_pub_des_state
+
+interactions with this node are through SERVICES 
+    ros::ServiceServer estop_service_;
+    ros::ServiceServer estop_clear_service_;
+    ros::ServiceServer flush_path_queue_;
+    ros::ServiceServer append_path_;
+    ros::ServiceServer path_queue_query_;
+    ros::ServiceServer set_end_state_;
+
+simplify interactions with LIBRARY move_base (in package "move_base_lib")
+  example: bool success = moveBase.move_to_location_code(GEARBOX_TABLE, result_pose);
+  where "result_pose" will contain the pose of the robot at the end of the move.
+  This automatically sets to desired state to result_pose (so linear feedaback err is zeroed),
+  AND invokes freeze_robot_service to have Gazebo hold the robot pose stationary at this pose.
+  NOTE: automatically does "unfreeze" before attempting move_to_location_code()
+  This function will block until the commmanded move has finished streaming.
+
+
+
+#
+Start up with:
+
+roslaunch worlds Fetch_kit.launch
+
+Initialize the robot pose (if not already done):
+rosrun test_fetch_arm_ac fetch_torso_lift_preset
+rosrun test_fetch_arm_ac fetch_head_tilt_preset
+rosrun test_fetch_arm_ac fetch_arm_pre_pose
+
+for testing, can manually pre-position the robot, e.g.:
+try fetch at pose: 0.42, -1.1, 0, 0,0,-1.5707
+
+freeze the robot here:
+rosrun gazebo_set_state freeze_robot_service
+rosservice call freeze_robot_state true
+
+rosrun object_finder object_finder_as
+
+roslaunch fetch_arm_behavior_server fetch_static_transforms.launch
+
+rosrun fetch_arm_behavior_server fetch_cart_move_as
+
+rosrun move_part_lib example_move_part_main
+
+
+------------------------------- 
+
+
+
+
+
+coordinator strategy:
+
+top level: this program should:
+
+*prep robot pose: torso, head, arm
+
+loop:
+ do_kitting(): {
+ move_to_goal(kit_location_code);
+
+ *get_kit() {
+    ...acquire kit, place on pedestal
+   }
+ *move_to_goal(gearbox_table_code);
+      (enable robot freeze, if Gazebo)
+
+ *success = get_part(part_code) {
+   *invoke object-finder (for expected part)
+   *choose object to grab (may require repositioning the robot)
+   *move arm to approach, descend, 
+   *enable gripper
+   *move arm to depart; test object is still  grasped
+   }
+
+ *success = place_grasped_part(destination_code) {
+   *move arm to place grasped  part in appropriate pocket of kit
+    confirm object still  grasped
+   *release part (drop in kit)
+  }
+
+ *move_to_goal(next_location_code);
+ *get_part(part_code)
+ *place_grasped_part(destination_code)
+
+ ...
+
+ *move_to_goal(kit_dropoff_location_code);
+ *drop_off_kit()
+ }
+
+grasp_lib:  needs
+for arm control:
+
+  <build_depend>roscpp</build_depend>
+<build_depend>control_msgs</build_depend>
+<build_depend>actionlib</build_depend>
+<build_depend>geometry_msgs</build_depend>
+<build_depend>sensor_msgs</build_depend>
+<build_depend>trajectory_msgs</build_depend>
+<build_depend>fetch_fk_ik</build_depend>
+
+for gripper:
+gripper_interface
+
+
+---testing---
+start w:
+roscore
+roscd pcd_images;  rosrun pcl_utils display_pcd_file
+  (enter fname)
+rosrun object_finder object_finder_as
+
+rosrun move_part_lib example_move_part_main
+  this much gets move_part object talking to object_finder action server
+
+-------add kinematics-------
+
+
+
+

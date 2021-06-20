@@ -1,0 +1,11 @@
+arm action-server organization:
+
+*cartesian_motion_commander  
+  e.g.
+  rosrun cartesian_motion_commander example_generic_cartesian_move_ac3
+
+uses arm_motion_action to send Cartesian behavior commands;
+
+arm_motion_action defines the action messages used by the arm_motion_interface (in action server) and generic_cartesian_planner/cart_motion_commander.
+
+

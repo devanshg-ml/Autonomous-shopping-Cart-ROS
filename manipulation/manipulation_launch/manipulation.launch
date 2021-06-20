@@ -1,0 +1,5 @@
+<launch> 
+<node name= "fetch_cart_move_as" pkg= "fetch_arm_behavior_server" type= "fetch_cart_move_as" output="screen" respawn="true"/> 
+<include file="$(find fetch_arm_behavior_server)/launch/fetch_static_transforms.launch" />
+<include file="$(find manipulation_launch)/pre_pose.launch" />
+</launch>  

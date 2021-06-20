@@ -1,0 +1,13 @@
+#goal definition
+int32 HOME_POSE = 0
+int32 TOTE_TABLE = 1
+int32 GEARBOX_TABLE = 2
+int32 SHUNK_TABLE = 3
+int32 BOLT_BIN = 4
+int32 KIT_DROPOFF = 5
+
+int32 key_pose_code
+
+---
+#result definition
+bool status

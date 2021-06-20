@@ -1,0 +1,26 @@
+joint-space move to drop part:
+
+from pre-pose:
+0.80, -1, 0, 1.570, 0, 1, 0
+
+move to: 1.4, 0.6, -0.2, 
+
+1.4, 0.6, -0.2, 1.2, 0, 1, 0  DROP FROM HERE
+
+sequence:
+  goto pre-pose: 0.80, -1, 0, 1.570, 0, 1, 0
+  swing shoulder more: 1.4, -1, 0, 1.570, 0, 1, 0 (maybe go directly here)
+  move arm to above kit: 1.4, 0.6, -0.2, 1.2, 0, 1, 0
+ drop part
+  extract arm: 1.4, -1, 0, 1.570, 0, 1, 0
+  pre-pose: 0.80, -1, 0, 1.570, 0, 1, 0
+
+need joint-space move command:
+
+next pocket: 1.4, 0.6, 0, 1.2, 0, 1, 0 
+
+third pocket: 1.4, 0.75, 0, 1.2, 0, 1, 0
+
+
+
+

@@ -1,0 +1,35 @@
+wheels:  velocity=\"17.4
+limit effort=\"8.85
+
+roslaunch fetch_gazebo playground.launch
+rosrun mobot_pub_des_state mobot_pub_des_state
+rosrun mobot_pub_des_state open_loop_controller cmd_vel:=/base_controller/command
+
+rosrun mobot_pub_des_state pub_des_state_path_client_3x3
+
+after L-shaped move, gazebo reports "fetch"at:
+    position: 
+      x: 2.23950525465
+      y: 2.92029134157
+      z: 0.00101513217617
+    orientation: 
+      x: 0.00200957784183
+      y: -0.001102197876
+      z: 0.822609300023
+      w: 0.56860239735
+
+
+but odom reports:
+
+    position: 
+      x: 3.09545602101
+      y: 3.01260092519
+      z: 0.0
+    orientation: 
+      x: 0.0
+      y: 0.0
+      z: 0.727333701788
+      w: 0.6862839691
+Significant error;
+use "cheat" instead as gazebo state feedback;
+

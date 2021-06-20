@@ -1,0 +1,62 @@
+status 2/10/19:
+given desired hand affine, try to find solns;
+
+approach: index the solns for sampled values of q1 (shoulder pan)
+
+status: given q_shoulder_pan and desired hand affine, can compute 2 solns for q2,q3,q4
+  q4 is elbow angle with + and - solns;
+  expect 1 soln for q_elbow>0 and other for q_elbow<0
+
+extend these:  each q1,q2,q3,q4 soln has 2 wrist solns
+--> each q1 value yields 4 solns; need to check if elbow angle is out of range
+    for wrist solns, need to check if wrist bend is out of range
+
+FINISH ME!!!
+
+after have viable solns (up to 4), compute more solns indexed by q1;
+need to speed up search over indexed q1
+
+
+<joint name=\"torso_lift_joint\"\
+  \ type=\"prismatic\">\n    <origin rpy=\"-6.123E-17 0 0\" xyz=\"-0.086875 0 0.37743\"\
+  />\n    <parent link=\"base_link\"/>\n    <child link=\"torso_lift_link\"/>
+
+<joint name=\"shoulder_pan_joint\"\
+  \ type=\"revolute\">\n    <origin rpy=\"0 0 0\" xyz=\"0.119525 0 0.34858\"/>\n \
+  \   <parent link=\"torso_lift_link\"/>\n    <child link=\"shoulder_pan_link\"/>
+
+
+base_link->torso_lift_link->shoulder_pan_link
+
+to do fk/ik w/rt torso_lift_link as robot base, need a static transform of:
+xyz=\"0.119525 0 0.34858\"
+
+
+rosrun tf tf_echo torso_lift_link bellows_link2
+
+at torso_lift_joint, bellows_joint = -2.4206423352340402e-08, 0.006692775423455284,
+rosrun tf tf_echo base_link torso_lift_link 
+- Translation: [-0.087, -0.000, 0.377]
+
+rosrun tf tf_echo base_link shoulder_pan_link
+- Translation: [0.033, 0.000, 0.726]
+ (shoulder jnt is 0.033 forward of base origin, and elevated by 0.726)
+
+rosrun tf tf_echo base_link gripper_link:
+- Translation: [0.128, 0.370, 1.160]
+= [0.033, 0.000, 0.726] + [0.095, 0.370, 0.434]
+
+and spottest--> A origin (to gripper frame): 0.094887 0.370377 0.434421
+looks good!  (single fk test; should do more)
+
+rosrun tf tf_echo torso_lift_link gripper_link
+- Translation: [0.214, 0.370, 0.783]
+A origin (to gripper frame): 0.214412 0.370377 0.783001 (modified fk s.t. wrt torso_lift_link)
+
+
+
+
+
+
+
+

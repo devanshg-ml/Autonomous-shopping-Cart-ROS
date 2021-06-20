@@ -1,0 +1,36 @@
+tests w/ arm motion:
+w/ arm in front of face, can do:
+(w/rt torso_lift_link)
+
+origin: 0.7, 0, 0
+and can move up to:
+origin = 0.7, 0, 0.5
+(higher than this--> wrist bend out of range)
+
+can move down to:
+origin: 0.7, 0, -0.3
+
+from:
+origin = 0.7, 0, 0.5
+reach along x-axis:--can't reach out further
+
+
+origin: 0.8, 0, 0.4 is OK
+ origin: 0.87, 0, 0.3 is max reach
+ origin: 0.65, 0, 0.3 is min reach
+
+
+
+need to examine reachability from above!!
+
+cmd to:  origin: 0.64, 0, 0.3
+
+jnt angs:  -2.8182e-05     -1.22101  2.46974e-05      1.68558 -6.95416e-06       1.1302  3.91851e-06
+
+looks like shoulder-lift joint is at max 
+action server output is allowing excessive q2 values:
+[ INFO] [1550507379.422325560, 5368.483000000]: q_soln:  2.52751e-06     -1.24494 -6.86236e-07      1.68555            0            0            0
+
+
+
+

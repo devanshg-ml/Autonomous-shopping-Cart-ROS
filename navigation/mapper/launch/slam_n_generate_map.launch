@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- mapping node: -->
+    <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen" respawn="false" respawn_delay="0">
+        <remap from="scan" to="base_scan"/>
+    </node>
+    <!-- auto map saving -->
+    <node pkg="map_server" type="map_saver" name="map_saver" output="screen" args="-f $(find teamcasefetch_return)/maps/generated_W_lidar" respawn="true" respawn_delay="1">
+        
+    </node>
+
+</launch>

@@ -1,0 +1,19 @@
+create a move_base action server;
+goal message:
+ action codes for different behaviors
+ args (incl polyline option)
+
+
+action server, when done w/ move, should call a freeze (and thaw on new cmd)
+
+actions: (all init with "thaw()" and end with "freeze()" and update des_pose for lin steering )
+
+  move_to_table(int table_code)
+  move_path(...polyline)
+  
+  //back_up(double dist)
+  move_fwd(double dist)
+  spin_to_heading(double ang)
+  freeze() ...includes setting desired_state = actual state (for steering)
+  
+

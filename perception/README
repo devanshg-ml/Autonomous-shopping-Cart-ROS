@@ -1,0 +1,24 @@
+Perception:
+See package pcd_images for sample PCD snapshots.
+
+snapshots  are created using: 
+`rosrun pcl_utils pcd_snapshot`  
+(then rename fetch_snapshot.pcd to new, mnemonic name)
+
+Can then publish this image using:
+`rosrun pcl_utils display_pcd_file`
+and respond to prompt w/ file name.  This will publish the PCD file on topic "/head_camera/depth_registered/points" with
+reference frame: head_camera_rgb_optical_frame, which is viewable in rviz.
+
+note that with torso lifted and head tilted (1 rad),
+rosrun tf tf_echo torso_lift_link head_camera_rgb_optical_frame
+
+- Translation: [0.244, 0.020, 0.627]
+- Rotation: in Quaternion [0.679, -0.679, 0.198, -0.198]
+            in RPY (radian) [-2.575, 0.000, -1.570]
+            in RPY (degree) [-147.509, 0.000, -89.958]
+(do a static pub to get this in program)
+
+
+
+

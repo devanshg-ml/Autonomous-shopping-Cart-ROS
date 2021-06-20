@@ -1,0 +1,61 @@
+57.314919, -1.675673 from 274,24 to 280, 81
+83.216583, 3.069429 from 230,6 to 313, 0
+
+
+
+
+92.021736, -1.592532 from 232,4 to 234, 96
+76.026314, -1.597106 from 229,13 to 231, 89
+62.000000, 1.570796 from 228,75 to 228, 13
+55.036350, -1.607144 from 317,38 to 319, 93
+73.006851, 1.584494 from 229,77 to 230, 4
+ 90.000000, 1.570796 from 316,94 to 316, 4
+59.008472, 1.587744 from 231,69 to 232, 10
+43.185646, -1.663553 from 270,52 to 274, 95
+57.314919, -1.675673 from 274,24 to 280, 81
+69.007248, 1.585288 from 270,95 to 271, 26
+
+DRAWING TEMPLATE:
+vertical line, (col,row) = (232, 4) length 90 as left edge
+vertical,  (col,row) = 317, 4, length 90 as right edge
+vertical,  (col,row) = 274, 4, length 90 as handle
+
+horizontal lines:
+TOP: (col,row) = 232,4, length 90
+Bot: 232,94, length 90
+divider (horiz, on right side)
+277, 47, length 45
+
+
+length 90--> diag = 128x128 (center ~64x64)
+pad image by about 40-50 pixels
+
+centered template: specify as (col,row) length
+top: row 19;
+bot: row 109
+verticals:
+19,19,90  left vertical
+64,19,90  handle
+109,19,90 right vertical
+
+horizontals:
+19,19,90  top
+64,64,45   separator
+19,109,90  bot
+
+
+
+
+
+
+
+
+
+236,97 to 320, 90
+232,4 to 234, 96
+230,6 to 313, 0
+229,13 to 231, 89
+
+270,4 to 281, 96
+276,24 to 282, 95
+270,95 to 271, 26

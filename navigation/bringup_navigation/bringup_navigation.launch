@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- map server -->
+    <node pkg="map_server" type="map_server" name="map_server" args="$(find mapper)/real_map/map_main.yaml" output="screen" respawn="false" respawn_delay="0">
+        
+    </node>
+    <!-- amcl -->
+    <node pkg="amcl" type="amcl" name="amcl" output="screen" respawn="false" respawn_delay="0">
+        <remap from="scan" to="base_scan"/>
+    </node>
+
+    <!-- open_loop_controller -->
+    <node pkg="mobot_pub_des_state" type="open_loop_controller" name="open_loop_controller" output="screen" respawn="false" respawn_delay="0">
+        
+    </node>
+
+    <!-- mobot_pub_des_state -->
+    <node pkg="mobot_pub_des_state" type="mobot_pub_des_state" name="mobot_pub_des_state" output="screen" respawn="false" respawn_delay="0">
+        
+    </node>
+
+    <!-- pub_des_state_path_client_amcl_correction -->
+    <node pkg="mobot_pub_des_state" type="pub_des_state_path_client_amcl_correction" name="pub_des_state_path_client_amcl_correction" output="screen" respawn="false" respawn_delay="0">
+        
+    </node>
+
+</launch>

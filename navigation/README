@@ -1,0 +1,19 @@
+demo of fetch navigation:
+
+start up these nodes:
+
+roslaunch fetch_gazebo playground.launch 
+rosrun mobot_gazebo_state mobot_gazebo_state
+rosrun lin_steering lin_steering_wrt_gazebo_state cmd_vel:=/base_controller/command
+rosrun mobot_pub_des_state mobot_pub_des_state
+rosrun mobot_pub_des_state pub_des_state_path_client_3x3
+
+this does steering w/rt gazebo states, since odom is so terrible
+path client keeps repeating commands in a loop, querying pub_des_state for an empty queue
+before re-sending
+Node mobot_gazebo_state gets fetch state from gazebo and republishes it, acting as ideal
+  localization
+
+
+
+

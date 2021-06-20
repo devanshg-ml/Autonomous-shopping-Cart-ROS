@@ -1,0 +1,7 @@
+#goal definition
+nav_msgs/Path path
+geometry_msgs/PoseStamped set_current_pose
+---
+#result definition
+bool status
+geometry_msgs/PoseStamped modified_end_pose

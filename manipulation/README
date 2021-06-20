@@ -1,0 +1,49 @@
+arm motion behavior server:
+This directory contains the code for a cartesian-motion arm behavior server.
+
+start up robot or gazebo, e.g.:
+`roslaunch worlds Fetch_kit.launch`
+
+Initialize the robot pose (if not already done):
+`rosrun test_fetch_arm_ac fetch_torso_lift_preset`  
+`rosrun test_fetch_arm_ac fetch_head_tilt_preset`  
+`rosrun test_fetch_arm_ac fetch_arm_pre_pose`  
+
+for testing, can manually pre-position the robot, e.g.:
+try fetch at pose: 0.42, -1.1, 0, 0,0,-1.5707
+
+note: gear_box_top init pose is: 0.36, -1.66, 0.792, 0,0,-1.57
+      gear_box_bottom init pose: 0.62, -1.64, 0.797, -1.5707, 0, 0
+
+
+
+
+object finder reports:
+object 0: 
+   pose x,y,z = 0.640851, 0.058637, 0.025000
+   quaternion x,y,z, w = 0.000000, 0.000000, 0.000000, 1.000000
+object 1: 
+    pose x,y,z = 0.625589, -0.199872, 0.025000
+    quaternion x,y,z, w = 0.000000, 0.000000, 0.000000, 1.000000
+
+good gripper approach for gear_box_top, w/rt torso: Translation: [0.64, -0.060, 0.050]
+//NEED TO NEGATE Y VALUE FROM OBJECT FINDER
+
+FOR SIMULATION: freeze the robot here (only needed for Gazebo):
+`rosrun gazebo_set_state freeze_robot_service`  
+`rosservice call freeze_robot_state true`
+
+run static transforms publisher:
+`roslaunch fetch_arm_behavior_server fetch_static_transforms.launch`  
+
+start the cartesian-move behavior server:
+`rosrun fetch_arm_behavior_server fetch_cart_move_as`  
+
+run an example client:
+`rosrun cartesian_motion_commander example_fetch_grab_part`  
+
+TO TEST CARTESIAN MOTIONS INTERACTIVELY:  
+`rosrun cartesian_motion_commander fetch_cartesian_interactive_ac`
+
+
+

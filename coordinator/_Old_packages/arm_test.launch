@@ -1,0 +1,9 @@
+<launch>
+<!-- launch rviz using a specific config file -->
+ <node pkg="rviz" type="rviz" name="rviz" args="-d $(find bringup_coordinator)/fetch.rviz"/>
+ 
+<!-- start coordinator --> 
+ <node pkg="coordinator" type="arm_test" name="arm_test"  output="screen" />
+
+
+</launch>

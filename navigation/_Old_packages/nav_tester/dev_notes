@@ -1,0 +1,129 @@
+//fake robot motion
+// create fake: base_link child of odom 
+// and: odom child of map
+
+//use this node to:
+// *integrate pub_des_state speed/spin to compute (flawed) estimate of base_link w/rt odom
+// *create a drifty transform to publish fake odom w/rt map (start w/ identical correspondence)
+
+//plot out frames, notably base_link in map frame in rviz, to debug repeatable locations in spite of odom drift
+// and imperfect cmd_vel steering
+
+//subscribe to equiv of cmd_vel
+//  x_base_link_wrt_odom += v*dt*cos(heading_wrt_odom)
+//  y_base_link_wrt_odom += v*dt*sin(heading_wrt_odom)
+//  heading_wrt_odom += omega*dt
+// publish tf:  base_link w/rt odom
+
+
+//separately, publish odom w/rt map; 
+//init: publish transform parent=map, child = odom, initially identity (later, induce drift)
+#include <math.h>
+#include <stdlib.h>
+#include <string>
+#include <vector>
+
+#include <ros/ros.h> //ALWAYS need to include this
+
+#include <geometry_msgs/Twist.h>
+#include <geometry_msgs/TwistStamped.h>
+#include <geometry_msgs/Point.h>
+#include <geometry_msgs/PointStamped.h>
+#include <geometry_msgs/PoseStamped.h>
+#include <geometry_msgs/PoseWithCovarianceStamped.h>
+#include <nav_msgs/Odometry.h>
+#include <std_msgs/Float64.h>
+ #include <tf/transform_listener.h>
+#include <tf/LinearMath/Vector3.h>
+#include <tf/LinearMath/QuadWord.h>
+#include <tf/transform_broadcaster.h>
+#include <xform_utils/xform_utils.h>
+
+geometry_msgs::Twist g_twist;
+double g_speed = 0;
+double g_omega = 0;
+//double g_x_base_link_wrt_odom,g_y_base_link_wrt_odom,g_heading_base_link_wrt_odom;
+//double g_x_odom_wrt_map,g_y_odom_wrt_map,g_heading_odom_wrt_map;
+//g_x_base_link_wrt_odom=0;
+//g_y_base_link_wrt_odom=0;
+//g_heading_base_link_wrt_odom=0;
+//g_x_odom_wrt_map=0;
+//g_y_odom_wrt_map=0;
+//g_heading_odom_wrt_map=0;
+
+//double g_old_timme,g_new_time;
+//double g_dt;
+
+
+//pubDesState callback:
+void desStateCallback(const nav_msgs::Odometry& des_state) {
+    g_twist = des_state.twist.twist;
+    g_speed = g_twist.linear.x;
+    g_omega = g_twist.angular.z;
+   /*
+    g_old_time = g_new_time;
+    g_new_time = ros::Time::now().toSec();
+    g_dt = g_new_time - g_old_time;
+    if (g_dt>0.1) g_dt = 0.0;
+    g_x_base_link_wrt_odom+=g_speed*cos(g_heading_base_link_wrt_odom)*g_dt;
+    g_y_base_link_wrt_odom+=g_speed*sin(g_heading_base_link_wrt_odom)*g_dt;
+    g_heading_base_link_wrt_odom+=g_omega*g_dt  + 0.01*g_dt; //cumulative heading error!
+
+    g_x_odom_wrt_map+=g_speed*cos(g_heading_odom_wrt_map)*g_dt;
+    g_y_odom_wrt_map+=g_speed*sin(g_heading_odom_wrt_map)*g_dt;
+    g_heading_odom_wrt_map+=g_omega*g_dt;
+    */
+  
+}
+
+int main(int argc, char** argv) 
+{
+    // ROS set-ups:
+    ros::init(argc, argv, "odom_simu_node"); //node name
+
+    ros::NodeHandle nh; 
+    //odom_publisher = nh.advertise<geometry_msgs::Twist>("/cmd_vel", 1);
+    //amcl_publisher = nh.advertise<...);
+    //ros::Publisher pose_publisher_;
+
+
+    XformUtils xform_utils;
+    tf::TransformBroadcaster tf_br;
+
+    tf::Transform tf_odom_wrt_map;
+    tf::Quaternion q_odom_wrt_map;
+    tf::Transform tf_base_link_wrt_odom;
+    tf::Quaternion q_base_link_wrt_odom;
+
+    ros::Subscriber des_state_subscriber = nh.subscribe("/desState",1,desStateCallback); 
+
+
+    double x_base_link_wrt_odom=0;
+    double y_base_link_wrt_odom=0;
+    double heading_base_link_wrt_odom=0;
+
+    double freq = 50.0;
+
+    double dt = 1/freq;
+    ros::Rate sleep_timer(50.0);
+    g_new_time = ros::Time::now().toSec();
+
+    while (ros::ok()) {
+        ros::spinOnce();
+        //integrate speed/spin cmds to emulate odometry:
+    	 x_base_link_wrt_odom+=g_speed*cos(g_heading_base_link_wrt_odom)*dt;
+   	 y_base_link_wrt_odom+=g_speed*sin(heading_base_link_wrt_odom)*dt;
+    	 heading_base_link_wrt_odom+=g_omega*dt; 
+         q_base_link_wrt_odom.setRPY(0, 0, g_heading_base_link_wrt_odom);
+         tf_base_link_wrt_odom.setOrigin(tf::Vector3(g_x_base_link_wrt_odom,g_y_base_link_wrt_odom,0));
+         q_base_link_wrt_odom.setRPY(0, 0, g_heading_base_link_wrt_odom);
+         tf_base_link_wrt_odom.setRotation(q_base_link_wrt_odom);
+         tf_br.sendTransform(tf::StampedTransform(tf_base_link_wrt_odom, ros::Time::now(), "odom", "base_link"));
+
+        sleep_timer.sleep(); 
+    }
+    
+    return 0;
+} 
+
+
